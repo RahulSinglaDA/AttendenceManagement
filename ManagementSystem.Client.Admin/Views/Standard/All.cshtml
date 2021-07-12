@@ -1,0 +1,42 @@
+﻿@model IEnumerable<ManagementSystem.Models.Models.Standard>
+
+@{
+    ViewData["Title"] = "All";
+}
+
+<h1>All</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.StandardID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StandardName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StandardID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StandardName)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.StandardID }) |
+                    @Html.ActionLink("Details", "Details", new { id = item.StandardID }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = item.StandardID })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

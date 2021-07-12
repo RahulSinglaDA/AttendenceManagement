@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ManagementSystem.Helpers;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -32,50 +33,35 @@ namespace ManagementSystemAPI.Controllers
         [HttpGet]
         public async Task<IEnumerable<Standard>> GetAsync()
         {
-            Request<Standard> req = Request<Standard>.CreateRequest();
-            req.Type = RequestType.GetAll;
-            Response<Standard> res = await mediator.Send(req);
+            Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.GetAll, null);
             return (IEnumerable<Standard>)res.Entity;
         }
 
         [HttpGet("{id}")]
         public async Task<Standard> GetAsync(int id)
         {
-            Request<Standard> req = Request<Standard>.CreateRequest();
-            req.Type = RequestType.Get;
-            req.ID = id;
-            Response<Standard> res = await mediator.Send(req);
+            Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.Get, null, id);
             return (Standard)res.Entity;
         }
 
         [HttpPost]
         public async Task<OkResult> PostAsync([FromBody] Standard value)
         {
-            Request<Standard> req = Request<Standard>.CreateRequest();
-            req.Type = RequestType.Add;
-            req.Entity = value;
-            Response<Standard> res = await mediator.Send(req);
+            Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.Add, value);
             return Ok();
         }
 
         [HttpPut("{id}")]
         public async Task<OkResult> PutAsync(int id, [FromBody] Standard value)
         {
-            Request<Standard> req = Request<Standard>.CreateRequest();
-            req.Type = RequestType.Update;
-            req.ID = id;
-            req.Entity = value;
-            Response<Standard> res = await mediator.Send(req);
+            Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.Update, value, id);
             return Ok();
         }
 
         [HttpDelete("{id}")]
         public async Task<OkResult> DeleteAsync(int id)
         {
-            Request<Standard> req = Request<Standard>.CreateRequest();
-            req.Type = RequestType.Delete;
-            req.ID = id;
-            Response<Standard> res = await mediator.Send(req);
+            Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.Delete, null, id);
             return Ok();
         }
         #endregion

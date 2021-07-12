@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DBManager\DBManager.csproj" />
     <ProjectReference Include="..\ManagementSystem.Handlers\ManagementSystem.Handlers.csproj" />
+    <ProjectReference Include="..\ManagementSystem.Helpers\ManagementSystem.Helpers.csproj" />
   </ItemGroup>
 
 </Project>
