@@ -11,14 +11,20 @@ namespace ManagementSystem.Helpers
 {
     public class Helper<T>
     {
-        private static T optT;
         public static async Task<Response<T>> SendRequestAsync(IMediator mediator, RequestType reqType, T value, int id = 0)
         {
-            Request<T> req = Request<T>.CreateRequest();
-            req.Type = reqType;
-            req.ID = id;
-            req.Entity = value;
-            return await mediator.Send(req);
+            try
+            {
+                Request<T> req = Request<T>.CreateRequest();
+                req.Type = reqType;
+                req.ID = id;
+                req.Entity = value;
+                return await mediator.Send(req);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
         }
 
     }

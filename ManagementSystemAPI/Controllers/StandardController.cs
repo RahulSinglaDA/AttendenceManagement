@@ -1,6 +1,5 @@
 ﻿using ManagementSystem.Models.Enums;
 using ManagementSystem.Models.Models;
-using ManagementSystem.Handlers.Request;
 using ManagementSystem.Handlers.Response;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -9,8 +8,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ManagementSystem.Helpers;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ManagementSystemAPI.Controllers
 {
@@ -31,10 +28,13 @@ namespace ManagementSystemAPI.Controllers
 
         #region "Requests"
         [HttpGet]
-        public async Task<IEnumerable<Standard>> GetAsync()
+        public async Task<ActionResult<IEnumerable<Standard>>> GetAsync()
         {
             Response<Standard> res = await Helper<Standard>.SendRequestAsync(mediator, RequestType.GetAll, null);
-            return (IEnumerable<Standard>)res.Entity;
+            if (res != null)
+                return ((IEnumerable<Standard>)res.Entity).ToList();
+            else
+                return BadRequest();
         }
 
         [HttpGet("{id}")]

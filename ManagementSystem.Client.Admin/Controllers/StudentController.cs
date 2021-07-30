@@ -1,4 +1,5 @@
-﻿using ManagementSystem.Models;
+﻿using ManagementSystem.Helpers;
+using ManagementSystem.Models;
 using ManagementSystem.Models.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,31 +20,35 @@ namespace ManagementSystem.Client.Admin.Controllers
 
         public ActionResult All()
         {
-            //string url = $"{BASE_URL}";
-            List<Student> students = new List<Student>(); //CallManager<IEnumerable<Student>>.Get(url);
-            students.Add(new Student { Name = "Rahul", Address = "Gurgaon", Age = 28, Phone = "111111111", Email = "abc@gmail.com" });
-
-            return View(students);
+            string url = $"{BASE_URL}";
+            IEnumerable<Student> standards = CallManager<IEnumerable<Student>>.Get(url);
+            if (standards != null)
+                return View(standards);
+            else
+                return BadRequest();
         }
 
         public ActionResult Details(int id)
         {
-            return View();
+            string url = $"{BASE_URL}/{id}";
+            Student standard = CallManager<Student>.Get(url);
+            return View(standard);
         }
 
-        
+
         public ActionResult Create()
         {
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public ActionResult Create(Student stn)
         {
             try
             {
+                CallManager<Student>.Post(stn, BASE_URL);
                 return RedirectToAction(nameof(All));
             }
             catch
@@ -52,20 +57,24 @@ namespace ManagementSystem.Client.Admin.Controllers
             }
         }
 
-        
+
         public ActionResult Edit(int id)
         {
-            return View();
+            string url = $"{BASE_URL}/{id}";
+            Student standard = CallManager<Student>.Get(url);
+            return View(standard);
         }
 
-        
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, Student stn)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                string url = $"{BASE_URL}/{id}";
+                CallManager<Student>.Put(stn, url);
+                return RedirectToAction(nameof(All));
             }
             catch
             {
@@ -73,20 +82,24 @@ namespace ManagementSystem.Client.Admin.Controllers
             }
         }
 
-       
+
         public ActionResult Delete(int id)
         {
-            return View();
+            string url = $"{BASE_URL}/{id}";
+            Student standard = CallManager<Student>.Get(url);
+            return View(standard);
         }
 
-        // POST: StudentController/Delete/5
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public ActionResult Delete(int id, Student stn)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                string url = $"{BASE_URL}/{id}";
+                CallManager<Student>.Delete(stn, url);
+                return RedirectToAction(nameof(All));
             }
             catch
             {

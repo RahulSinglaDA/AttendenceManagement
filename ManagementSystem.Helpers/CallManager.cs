@@ -14,9 +14,16 @@ namespace ManagementSystem.Helpers
             {
                 using (HttpResponseMessage res = client.GetAsync(url).Result)
                 {
-                    HttpContent content = res.Content;
-                    string responseJson = content.ReadAsStringAsync().Result;
-                    return JsonConvert.DeserializeObject<T>(responseJson);
+                    if(res.StatusCode==System.Net.HttpStatusCode.OK)
+                    {
+                        HttpContent content = res.Content;
+                        string responseJson = content.ReadAsStringAsync().Result;
+                        return JsonConvert.DeserializeObject<T>(responseJson);
+                    }
+                    else
+                    {
+                        return default(T);
+                    }
                 }
             }
         }

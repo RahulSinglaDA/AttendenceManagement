@@ -21,7 +21,10 @@ namespace ManagementSystem.Client.Admin.Controllers
         {
             string url = $"{BASE_URL}";
             IEnumerable<Standard> standards = CallManager<IEnumerable<Standard>>.Get(url);
-            return View(standards);
+            if (standards != null)
+                return View(standards);
+            else
+                return BadRequest();
         }
 
         public ActionResult Details(int id)
@@ -31,13 +34,13 @@ namespace ManagementSystem.Client.Admin.Controllers
             return View(standard);
         }
 
-        
+
         public ActionResult Create()
         {
             return View();
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Standard stn)
@@ -53,7 +56,7 @@ namespace ManagementSystem.Client.Admin.Controllers
             }
         }
 
-       
+
         public ActionResult Edit(int id)
         {
             string url = $"{BASE_URL}/{id}";
@@ -61,7 +64,7 @@ namespace ManagementSystem.Client.Admin.Controllers
             return View(standard);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Standard stn)
@@ -78,7 +81,7 @@ namespace ManagementSystem.Client.Admin.Controllers
             }
         }
 
-       
+
         public ActionResult Delete(int id)
         {
             string url = $"{BASE_URL}/{id}";
@@ -86,7 +89,7 @@ namespace ManagementSystem.Client.Admin.Controllers
             return View(standard);
         }
 
-       
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Standard stn)
